@@ -1,0 +1,1 @@
+[{'quality': 0, 'best_sell_price': 7.8, 'best_market_buy_price': 7.6, 'average_market_price': 7.6}]
