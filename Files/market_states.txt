@@ -1,0 +1,1 @@
+[{"Start_Date": "2020-09-6 23:00","state": "Recession"}, {"Start_Date": "2020-09-11 15:00","state": "Normal"}, {"Start_Date": "2020-09-25 15:00","state": "Boom"}, {"Start_Date": now}]

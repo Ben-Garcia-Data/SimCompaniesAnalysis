@@ -1,0 +1,21 @@
+To download from VM to Local:
+
+In VM: 
+gsutil -m cp -r  /home/g12bengar/mainproject/Files/RecordedSales  gs://simcovmdata
+
+
+In Google Cloud SDK Shell (On local machine): 
+gsutil -m cp -r gs://simcovmdata/RecordedSales C:\Users\PC\PycharmProjects\SimCompanies\Files
+
+To upload from local machine to VM:
+
+In Google Cloud SDK Shell (On local machine): 
+gsutil -m cp -r C:\Users\PC\PycharmProjects\SimCompanies\Files/RecordedSales gs://simcohistoricallaptopdata
+
+
+In VM: 
+gsutil -m cp -r  gs://simcohistoricallaptopdata/RecordedSales /home/g12bengar/mainproject/Files
+
+
+To get mail:
+ cat /var/spool/mail/g12bengar 
