@@ -1,5 +1,6 @@
 import os
 import plotly.graph_objects as go
+from TargetCalculations import calculate_targets
 
 file_name = 'db_numbers_that_can_be_sold'
 with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files', str(file_name)) + '.txt', "r") as file1:
@@ -51,10 +52,12 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
         all_data = []
         db_name = number_name_dict[db_number]
         save_location = r"C:\\Users\\PC\\PycharmProjects\\Simcompanies\\Files\\Charts\\" + chart_type + '\\'
-        host_name = str(db_name)
+        host_name = str(db_name) +'-' + str(chart_type)
         #print(save_location)
 
         quality_loops = Setup_for_Charts_qualities
+
+        #print("Setup charts Q's: " + str(quality_loops))
 
         now = datetime.datetime.utcnow()
         #print('Quality loops:' + str(quality_loops))
@@ -65,14 +68,18 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
             try:
                 with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\RecordedSales', file_name),
                           "r") as file1:
-                    data = eval(file1.read())
+                    data = file1.readlines()
                     file1.close()
                     #print('DATA: ' + str(data))
                     #print("")
+
+
                     all_data = all_data + [data]
             except FileNotFoundError:
                 data = []
                 #print(str(file_name) + ' not found')
+
+
 
         #print('All data: ' + str(all_data))
         all_dates = []
@@ -87,7 +94,28 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
         datapoints = 0
 
         special_list = []
+        failurecount = 0
+        #print('length of all data: ' + str(all_data))
+        def Check_if_error():
+            if isinstance(all_data[Q][0], int):
+                Remove_if_error()
+
+        def Remove_if_error():
+            all_data[Q].remove(Q[0])
+            Check_if_error()
         for Q in range(len(all_data)):
+            #print('Q Loop: ' + str(Q))
+
+            try:
+                if isinstance(all_data[Q][0], str):
+                    all_data[Q][0] = eval(all_data[Q][0])
+            except:
+                print('Error sanitizing data:')
+                print(str(all_data[Q][0]))
+
+            #Check_if_error()
+
+
             quality = all_data[Q][0]['quality']
             # print(quality)
             which_qualities.append(quality)
@@ -95,6 +123,12 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
             temp_quantity = []
             temp_timestamps = []
             for a in all_data[Q]:
+                try:
+                    if isinstance(a,str):
+                        #print('hi')
+                        a = eval(a)
+                except:
+                    continue
                 all_dates.append(a['datetime'])
                 all_prices.append(a['price'])
                 temp_prices.append(a['price'])
@@ -204,9 +238,25 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
 
         # Different market states: Recession, Normal, Boom
 
-        market_dates = ["2020-09-6 23:00", "2020-09-11 15:00", now]
-        market_states = ['Recession', 'Normal']
         market_state_colours = []
+        market_states = []
+        market_dates = []
+
+        file_name = 'market_states.txt'
+        with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files', file_name),
+                  "r") as file1:
+            market_info = eval(file1.read())
+            file1.close()
+
+        #print('Market info: ' + str(market_info))
+
+        for x in market_info:
+            market_dates.append(x['Start_Date'])
+            try:
+                market_states.append(x['state'])
+            except KeyError:
+                """print('Reached the end of the market states')"""
+
         for x in market_states:
             if x == 'Recession':
                 market_state_colours.append("#9bffe9")  # Turquoise
@@ -238,7 +288,7 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
         def Add_Market_States(market_states, market_dates, market_state_colours,positions=[99,99]):
             states_list = []
             for x in range(len(market_states)):
-                # print('Between ' + str(market_dates[x])+ ' and ' + str(market_dates[x+ 1]) + ' is ' + str(market_states[x]) + ', coloured as '  + str(market_state_colours[x]))
+                #print('Between ' + str(market_dates[x])+ ' and ' + str(market_dates[x+ 1]) + ' is ' + str(market_states[x]) + ', coloured as '  + str(market_state_colours[x]))
                 states_list.append(
                     dict(
                         type="rect",
@@ -262,6 +312,9 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
         def Add_Price_Targets(all_data, special_list, all_dates,show_legend,positions=[99,99]):
             import pandas as pd
             for Q in range(len(all_data)):
+
+                if isinstance(all_data[Q][0], str):
+                    all_data[Q][0] = eval(all_data[Q][0])
 
                 quality = all_data[Q][0]['quality']
                 # print('For Q' + str(quality))
@@ -342,9 +395,19 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
                         ))
 
         def Add_3D_Price_Targets(all_data, special_list, first_timestamp, mid_timestamp, last_timestamp):
+            #print('Indicators list length: ' + str(len(special_list)))
+            #print('All data length: ' + str(len(all_data)))
             for Q in range(len(all_data)):
+                #print('Q Loop: ' + str(Q))
+                try:
+                    if isinstance(all_data[Q][0], str):
+                        all_data[Q][0] = eval(all_data[Q][0])
+                except SyntaxError:
+                    print('Syntax Error on the end of the file. New lines not appending correctly')
+                    continue
                 quality = all_data[Q][0]['quality']
-                # print(quality)
+                #print('Quality: ' +str(quality))
+                #print('special_list: ' + str(special_list))
                 indicators = special_list[Q]
                 VWAP = indicators['VWAP']
                 price_target = indicators['price_target']
@@ -389,9 +452,9 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
                              x='Date',
                              y='Price',
                              color='Quality',
-                             opacity=0.5,
+                             opacity=0.3,
                              size='Quantity',
-                             size_max=50,
+                             size_max=70,
                              text='Text',
                              # legendgroup=df1['Quality']
                              )
@@ -531,9 +594,14 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
 
             ingredients_db_list = []
             ingredients_quantity_list = []
+            db_numbers_that_can_be_sold_ID_ONLY = []
+            for x in db_numbers_that_can_be_sold:
+                db_numbers_that_can_be_sold_ID_ONLY.append(x['id'])
+            #print('Can be sold: ' + str(db_numbers_that_can_be_sold_ID_ONLY))
             for x in encyclopedia_data['producedFrom']:
-                # print(x)
-                if x in db_numbers_that_can_be_sold:
+                #print('Produced from: ' + str(x))
+                if x['resource']['db_letter'] in db_numbers_that_can_be_sold_ID_ONLY:
+                    #print('Added this to the ingredients list')
                     # Only adds to the ingredients list if we can actually source it from the exchange
                     ingredients_db_list.append(x['resource']['db_letter'])
                     ingredients_quantity_list.append(x['amount'])
@@ -562,8 +630,10 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
             for i in num_of_ingredients:
                 if i == 0:
                     specs.append([{}, {"rowspan": len(num_of_ingredients), "colspan": 2}, None, None])
+                    #Adds the first row of the ingredients, this is a bit different bcus the 'main' chart is here.
                 else:
                     specs.append([{}, None, None, None])
+                    #Row by roww adds the other charts. Column 1 and 2 need to be left as none so that the main chart can fit there.
 
             #print(specs)
 
@@ -577,6 +647,8 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
             ingredient_qualities = []
             for x in qualities:
                 ingredient_qualities.append(x-1)
+
+            #print('Ingredient qualitites: ' + str(ingredient_qualities))
 
             for db_number in ingredients_db_list:
                 #print('Db number ' + str(db_number))
@@ -593,7 +665,10 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
 
                 Add_Market_States(market_states, market_dates, market_state_colours,positions=positions)
 
-                # Setup_Y_Axis(all_prices, sorted_prices,positions=positions) Not needed bcus we only ever have 1 Q
+
+                Setup_Y_Axis(all_prices, sorted_prices,positions=positions)
+
+                #Not needed bcus we only ever have 1 Q             <<< No longer true, now using all Q's in overview
                 # so it auto bounds the range to something sensible.
 
             #print('Original DB Number: ' + str(original_db_number))
@@ -612,11 +687,6 @@ def build_chart(db_number, chart_type, autoopen, qualities=range(9), position_co
             Add_Price_Targets(all_data, special_list, all_dates, False, positions=positions)
 
             Add_Market_States(market_states, market_dates, market_state_colours, positions=positions)
-
-
-
-
-
 
 
 
@@ -667,13 +737,16 @@ def update_datapoints():
 
 
 def update_all_charts():
+    print('Starting off by updating our price targets')
+    #calculate_targets()
     print('Building all charts')
+
     # While this is not the most efficent way to update all charts, because we are getting the data for each chart 3
     # times, I really don't care enough to code a fix for it because it's not very intensive to get that data.
     for x in db_numbers_that_can_be_sold:
+        # Set these to true if you are a masochist (and like to kill your browser).
         build_chart(x['id'], 'scatter3d', False)
-        build_chart(x['id'], 'scatter',
-                    False)  # Set these to true if you are a masochist (and like to kill your browser).
+        build_chart(x['id'], 'scatter', False)
         build_chart(x['id'], 'hloc', False)
         build_chart(x['id'], 'overview', False)
 

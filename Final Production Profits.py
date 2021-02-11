@@ -1,7 +1,7 @@
 import os
 import datetime
 
-cash_to_invest = 7000000
+cash_to_invest = 6000000
 
 file_name = 'numbers_dict'
 with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files',
@@ -67,40 +67,27 @@ for x in profits:
                 #print('Popped: ' + str(x))
                 old_profits = [x[3][0][0], x[3][0][1], x[3][0][2]]
                 old_investment = x[3][1][0]['Investment']
-                division_level = 1.1
-                for loop in range(10000):
 
-                    old_profits0 = old_profits[0]
-                    old_profits1 = old_profits[1]
-                    old_profits2 = old_profits[2]
+                division_level = old_investment / cash_to_invest
+
+                old_profits0 = old_profits[0]
+                old_profits1 = old_profits[1]
+                old_profits2 = old_profits[2]
+
+                new_profits0 = old_profits0 / division_level
+                new_profits1 = old_profits1 / division_level
+                new_profits2 = old_profits2 / division_level
+
+                new_profits = [new_profits0,new_profits1,new_profits2]
+                #print(new_profits)
+
+                new_investment = old_investment / division_level
 
 
-                    new_profits0 = old_profits0 / division_level
-                    new_profits1 = old_profits1 / division_level
-                    new_profits2 = old_profits2 / division_level
+                x[3][0] = new_profits
+                x[3][1][0]['Investment'] = new_investment
 
-                    new_profits = [new_profits0,new_profits1,new_profits2]
-                    #print(new_profits)
-
-
-                    new_investment = old_investment / division_level
-
-                    if new_investment < cash_to_invest:
-                        #print('New entry after ' +str(loop) +' loops. Has profits: ' + str(new_profits) + ' and investment: ' + str(new_investment))
-
-                        x[3][0] = new_profits
-                        x[3][1][0]['Investment'] = new_investment
-
-                        profits.append(x)
-                        break
-                    else:
-                        #Prep for next loop
-                        old_profits = new_profits.copy()
-                        old_investment = new_investment
-
-                    if loop == 10000:
-                        print('We appear to have somehow gone though EVERY loop')
-
+                profits.append(x)
 
 
 
@@ -169,6 +156,7 @@ import plotly.graph_objects as go
 
 fig = go.Figure([go.Bar(x=all_IDs,
                         y=all_avgprofits,
+                        
                         error_y=dict(
                                     type='data',
                                     symmetric=False,

@@ -563,6 +563,7 @@ def update_latest_market(db_number, data_sourced_from,main_loop, archive_data):
     # Writes every Q to it's own file
     loop = 0
     #print(formatted_sell_list)
+    time_10 = time.time()
     for x in formatted_sell_list:
         # print('loop = ' + str(loop))
         content = x.copy()
@@ -571,7 +572,7 @@ def update_latest_market(db_number, data_sourced_from,main_loop, archive_data):
         if len(x) > 0:
 
             try:
-                with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\RecordedSales',
+                with open(os.path.join(r'/home/g12bengar/mainproject/Files/RecordedSales',
                                        str(file_name)) + '.txt', "r") as file1:
                     data = eval(file1.read())
                     file1.close()
@@ -580,7 +581,7 @@ def update_latest_market(db_number, data_sourced_from,main_loop, archive_data):
                 # print('Error no file to read: ' + str(db_file_name) + '.txt')
                 data = []
 
-            data = data + content.copy()
+            data = data + content
 
             with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\RecordedSales',
                                    str(file_name)) + '.txt', "w") as file1:  # Overwriting
@@ -593,20 +594,53 @@ def update_latest_market(db_number, data_sourced_from,main_loop, archive_data):
     file_name = 'ab'
 
     # Writes the latest api response to file.
+
+    with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\MarketResults2',
+                       'Market for ' + str(db_number)) + '.txt', "w") as file1:
+        file1.write(str(response))
+        file1.close()
+
+    time_11 = time.time()
+    print('Old method took: ' + str(time_11 - time_10))
+    #print("End of " + str(numbers_dict[db_number]) + ' (' + str(db_number) + '). It took ' +str(time.time() - time_to_test_against2) + ' seconds')
+    #print("")
+
+    time_12 = time.time()
+    loop = 0
+    for x in formatted_sell_list:
+        # print('loop = ' + str(loop))
+        content = x.copy()
+        file_name = str(db_number) + '- Q' + str(loop)
+        # print('Writing to ' + str(db_file_name) + ", " + str(content))
+        if len(x) > 0:
+
+            # Open the file in append & read mode ('a+')
+            with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\RecordedSales2',
+                                   str(file_name)) + '.txt', "a+") as file_object:
+
+                file_object.write('\n'.join(map(str, content)))
+
+        loop = loop + 1
+
     content = response
-    with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\MarketResults',
+
+    with open(os.path.join(r'C:\Users\PC\PycharmProjects\Simcompanies\Files\MarketResults2',
                            'Market for ' + str(db_number)) + '.txt', "w") as file1:
         file1.write(str(content))
         file1.close()
 
-    #print("End of " + str(numbers_dict[db_number]) + ' (' + str(db_number) + '). It took ' +str(time.time() - time_to_test_against2) + ' seconds')
-    #print("")
+    time_13 = time.time()
+
+    print('New method took: ' + str(time_13-time_12))
+    old_times.append(time_11-time_10)
+    new_times.append(time_13 - time_12)
 
 
 
 
 
-
+old_times = []
+new_times = []
 data_source = 'live'  # Option are 'archive OR 'live'
 db_num = 1  # Only used in the case that we are in archive mode.
 print('Mode is ' + str(data_source))
@@ -666,6 +700,12 @@ if data_source == 'live':
                 times_report.append(sum(x.copy()) / len(x.copy()))
             except ZeroDivisionError:
                 a6jheda = 'cdsfdggb'
+
+        try:
+            print('Old times average: ' + str(sum(old_times)/len(old_times)))
+            print('New times average: ' + str(sum(new_times)/len(new_times)))
+        except:
+            ""
         #print('Timings report: ' + str(times_report))
 
 
