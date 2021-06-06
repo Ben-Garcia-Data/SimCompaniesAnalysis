@@ -1,6 +1,6 @@
 # SimCompaniesAnalysis
 
-I am The Pollution Co. ingame. I delevoped this a few months ago. Once I had it running a bit of analysis and you basically had won the game. That was never really the appeal to me and I got bored when I basically did all that I could.
+I am The Pollution Co. ingame. I delevoped this a few months ago. Once I had it running a bit of analysis and you basically had won the game. That was never really the appeal to me, but it may be for you.
 
 IMPORTANT:
 1. THIS IS NOT A BOT. IT DOES NOT PLAY THE GAME FOR YOU, ONLY DOES THE MATH AND TELLS YOU HOW BEST TO PROFIT.
