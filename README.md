@@ -1,6 +1,21 @@
 # SimCompaniesAnalysis
 
-I am The Pollution Co. ingame. I delevoped this a few months ago. Once I had it running a bit of analysis and you basically had won the game. That was never really the appeal to me, but it may be for you.
+--Info for Devs:--
+
+This colllection of python program files:
+• Collects data from the Simcompanies API.
+• Uses a weighted distribution of activity on different endpoints to avoid sending the servers uneccasry traffic.
+• Scans for changes in the data and transforms this into stock-like OHLC data.
+• Visualises the OHLC data.
+• Automattically generates graphs + reports using plotly which allows players to evuluate price trends. 
+
+Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://imgur.com/a/C7YGKKR)
+
+--Info for players:--
+
+I am The Pollution Co. ingame, feel free to send me a DM.
+
+Once I had it running a bit of analysis and you basically had won the game. That was never really the appeal to me, but it may be for you.
 
 IMPORTANT:
 1. THIS IS NOT A BOT. IT DOES NOT PLAY THE GAME FOR YOU, ONLY DOES THE MATH AND TELLS YOU HOW BEST TO PROFIT.
