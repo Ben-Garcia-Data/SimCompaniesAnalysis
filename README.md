@@ -4,11 +4,17 @@ __Info for Devs:__
 
 This colllection of python program files:
 • Collects data from the Simcompanies API.
+
 • Uses a weighted distribution of activity on different endpoints to avoid sending the servers uneccasry traffic.
+
 • Scans for changes in the data and transforms this into stock-like OHLC data.
+
 • Filters & cleans data.
+
 • Visualises the OHLC data.
+
 • Automattically generates graphs + reports using plotly which allows players to evuluate price trends. 
+
 • There is also a sub-program which calculates which products are best to produce given product price trends.
 
 Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://i.imgur.com/ObxGjuA.png)
