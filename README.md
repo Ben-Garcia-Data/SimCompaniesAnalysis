@@ -3,6 +3,7 @@
 __Info for Devs:__
 
 This colllection of python program files:
+
 • Collects data from the Simcompanies API.
 
 • Uses a weighted distribution of activity on different endpoints to avoid sending the servers uneccasry traffic.
