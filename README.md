@@ -9,7 +9,7 @@ This colllection of python program files:
 • Visualises the OHLC data.
 • Automattically generates graphs + reports using plotly which allows players to evuluate price trends. 
 
-Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://imgur.com/a/C7YGKKR)
+Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://i.imgur.com/ObxGjuA.png)
 
 --Info for players:--
 
