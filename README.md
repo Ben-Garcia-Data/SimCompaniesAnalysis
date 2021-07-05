@@ -20,7 +20,7 @@ This colllection of python program files:
 
 Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://i.imgur.com/ObxGjuA.png)
 
-For transparancy: This was my first large project. Inside it are huge quantities of poorly & inefficently written code, bad ideas and bad practices. I'm leaving it up publicly since I want to show my development as a programmer and my ability to improve my skills.
+For transparancy: This was my first large project. Inside it are huge quantities of poorly & inefficently written code, bad ideas and bad practices. I used a lot of hacky solutions since I didn't know a better way to do it. I'm leaving it up publicly since I want to show my development as a programmer.
 
 __Info for players:__
 
