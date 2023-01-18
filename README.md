@@ -1,10 +1,10 @@
 # SimCompaniesAnalysis
 
-__Info for Devs:__
+README
 
-This colllection of python program files:
+This project can:
 
-• Collects data from the Simcompanies API.
+• Collect data from the Simcompanies API. https://www.simcompanies.com/
 
 • Uses a weighted distribution of activity on different endpoints to avoid sending the servers uneccasry traffic.
 
@@ -20,7 +20,10 @@ This colllection of python program files:
 
 Outputs can be found at: https://github.com/ThechnicallyAnIdiot/SimCompaniesAnalysis/tree/master/Files/Charts GitHub doesn't like these .html files, but here is an example: ![Automatiically generated chart of Bricks price history, seperated by quality](https://i.imgur.com/ObxGjuA.png)
 
-For transparancy: This was my first large project. Inside it are huge quantities of poorly & inefficently written code, bad ideas and bad practices. I used a lot of hacky solutions since I didn't know a better way to do it. I'm leaving it up publicly since I want to show my development as a programmer.
+For transparancy: This was my first full stack project. Some of the code inside is excellent, other parts are not so excellent. I'm leaving it up publicly since I want to show my development as a programmer and it shows my problem solving skills.
+
+
+
 
 __Info for players:__
 
